@@ -1,0 +1,54 @@
+version: '2'
+services:
+  onlyoffice-documentserver:
+    build:
+      context: ../
+    env_file:
+      - ./config.env
+    container_name: onlyoffice-documentserver
+    depends_on:
+      - onlyoffice-postgresql
+      - onlyoffice-rabbitmq
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=onlyoffice-postgresql
+      - DB_PORT=5432
+      - DB_NAME=onlyoffice
+      - DB_USER=onlyoffice
+      - AMQP_URI=amqp://guest:guest@onlyoffice-rabbitmq
+      - SSL_CERTIFICATE_PATH=/etc/ssl/webserver/tls.crt
+      - SSL_KEY_PATH=/etc/ssl/webserver/tls.key
+      - SSL_DHPARAM_PATH=/etc/ssl/webserver/dhparam.pem
+    ports:
+      - '80:80'
+      - '443:443'
+    stdin_open: true
+    restart: always
+    stop_grace_period: 60s
+    volumes:
+       - ./data/data:/var/www/onlyoffice/Data
+       - ./data/log:/var/log/onlyoffice
+       - ./data/cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
+       - ./data/files:/var/www/onlyoffice/documentserver-example/public/files
+       - ./data/fonts:/usr/share/fonts
+       - ./data/certs:/etc/ssl/webserver
+       
+  onlyoffice-rabbitmq:
+    container_name: onlyoffice-rabbitmq
+    image: rabbitmq
+    restart: always
+    expose:
+      - '5672'
+
+  onlyoffice-postgresql:
+    container_name: onlyoffice-postgresql
+    image: postgres:9.5
+    environment:
+      - POSTGRES_DB=onlyoffice
+      - POSTGRES_USER=onlyoffice
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    restart: always
+    expose:
+      - '5432'
+    volumes:
+      - ./data/db:/var/lib/postgresql
