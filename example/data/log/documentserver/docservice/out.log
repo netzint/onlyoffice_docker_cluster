@@ -1,0 +1,12 @@
+[2022-09-06T05:27:53.493] [WARN] nodeJS - Express server starting...
+[2022-09-06T05:27:53.495] [WARN] nodeJS - Failed to subscribe to plugin folder updates. When changing the list of plugins, you must restart the server. https://nodejs.org/docs/latest/api/fs.html#fs_availability
+[2022-09-06T05:27:53.581] [WARN] nodeJS - Express server listening on port 8000 in production-linux mode. Version: 7.1.1. Build: 0
+[2022-09-06T05:28:08.863] [WARN] nodeJS - checkJwt error: docId = commandFromServer name = JsonWebTokenError message = invalid signature token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjIjoidmVyc2lvbiJ9.hYffQmO3E7Gew3HzubjGSzEP9NYyjxzKoRsqkIIEPfI
+[2022-09-06T05:28:36.302] [WARN] nodeJS - Express server starting...
+[2022-09-06T05:28:36.303] [WARN] nodeJS - Failed to subscribe to plugin folder updates. When changing the list of plugins, you must restart the server. https://nodejs.org/docs/latest/api/fs.html#fs_availability
+[2022-09-06T05:28:36.330] [WARN] nodeJS - Express server listening on port 8000 in production-linux mode. Version: 7.1.1. Build: 0
+[2022-09-06T05:35:33.506] [WARN] nodeJS - Express server starting...
+[2022-09-06T05:35:33.507] [WARN] nodeJS - Failed to subscribe to plugin folder updates. When changing the list of plugins, you must restart the server. https://nodejs.org/docs/latest/api/fs.html#fs_availability
+[2022-09-06T05:35:33.533] [WARN] nodeJS - Express server listening on port 8000 in production-linux mode. Version: 7.1.1. Build: 0
+[2022-09-06T05:41:05.970] [WARN] nodeJS - checkJwt error: docId = commandFromServer name = JsonWebTokenError message = invalid signature token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjIjoidmVyc2lvbiJ9.EQyQ6byYTHHt_y1yKx6NrmOhdIlnTd5UCt4f61-L0Fo
+[2022-09-06T05:55:39.081] [WARN] nodeJS - checkJwt error: docId = commandFromServer name = JsonWebTokenError message = invalid signature token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjIjoidmVyc2lvbiJ9.R7IDv_yhBrtzziJpVXsb1qkmftYE0dK8aiaLgOl9_zc

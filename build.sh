@@ -1,17 +1,27 @@
 #!/bin/bash
 
-TAG=$(cat ./currenttag.txt)
+###############################################
+# Build OnlyOffice without license limitations
+# by hermanntoast <dev@hermann-toast.de>
+# V2.0 at 02/09/2022
+###############################################
 
-mv buildfiles/DocumentServer/server/.git2 buildfiles/DocumentServer/server/.git
-mv buildfiles/DocumentServer/web-apps/.git2 buildfiles/DocumentServer/web-apps/.git
+apt-get update
 
-docker login
+apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
-docker build -t netzint/onlyoffice-documentserver:$TAG .
-docker tag netzint/onlyoffice-documentserver:$TAG netzint/onlyoffice-documentserver:latest
+git clone \
+    --depth=1 \
+    --recursive \
+    https://github.com/hermanntoast/build_tools.git ./tmp_build_tools
 
-docker push netzint/onlyoffice-documentserver:$TAG
-docker push netzint/onlyoffice-documentserver:latest
+cd ./tmp_build_tools
 
-mv buildfiles/DocumentServer/server/.git buildfiles/DocumentServer/server/.git2
-mv buildfiles/DocumentServer/web-apps/.git buildfiles/DocumentServer/web-apps/.git2
+docker build --tag netzint/onlyoffice-documentserver:7.1.1 .
+
+cd ..
+rm -r ./tmp_build_tools
