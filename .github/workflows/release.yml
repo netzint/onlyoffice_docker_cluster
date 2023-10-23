@@ -32,7 +32,7 @@ jobs:
       - name: Clone onlyoffice-build_tools
         uses: actions/checkout@v3
         with:
-          name: https://github.com/netzint/onlyoffice-build_tools.git
+          repository: https://github.com/netzint/onlyoffice-build_tools.git
 
       - name: Build and push onlyoffice-documentserver
         uses: docker/build-push-action@v3
