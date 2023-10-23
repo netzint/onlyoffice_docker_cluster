@@ -34,19 +34,19 @@ jobs:
         with:
           name: https://github.com/netzint/onlyoffice-build_tools.git
 
-      - name: Build and push
+      - name: Build and push onlyoffice-documentserver
         uses: docker/build-push-action@v3
         with:
           context: onlyoffice-build_tools
           push: true
           tags: netzint/onlyoffice-documentserver:${{ steps.version.outputs.substring }}, netzint/onlyoffice-documentserver:latest
 
-       - name: Build and push
-         uses: docker/build-push-action@v3
-         with:
-           context: onlyoffice-haproxy
-           push: true
-           tags: netzint/onlyoffice-haproxy:${{ steps.version.outputs.substring }}, netzint/onlyoffice-haproxy:latest
+      - name: Build and push onlyoffice-haproxy
+        uses: docker/build-push-action@v3
+        with:
+          context: onlyoffice-haproxy
+          push: true
+          tags: netzint/onlyoffice-haproxy:${{ steps.version.outputs.substring }}, netzint/onlyoffice-haproxy:latest
 
   github-release:
     needs: build-and-push
