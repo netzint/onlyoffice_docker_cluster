@@ -1,0 +1,74 @@
+on:
+  push:
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+  workflow_dispatch:
+
+name: Build Docker and publish
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Get release version
+        uses: bhowell2/github-substring-action@v1.0.0
+        id: version
+        with:
+          value: ${{ github.ref }}
+          index_of_str: 'refs/tags/v'
+
+      - name: Clone onlyoffice-build_tools
+        uses: actions/checkout@v3
+        with:
+          name: https://github.com/netzint/onlyoffice-build_tools.git
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: onlyoffice-build_tools
+          push: true
+          tags: netzint/onlyoffice-documentserver:${{ steps.version.outputs.substring }}, netzint/onlyoffice-documentserver:latest
+
+       - name: Build and push
+         uses: docker/build-push-action@v3
+         with:
+           context: onlyoffice-haproxy
+           push: true
+           tags: netzint/onlyoffice-haproxy:${{ steps.version.outputs.substring }}, netzint/onlyoffice-haproxy:latest
+
+  github-release:
+    needs: build-and-push
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get release version
+        uses: bhowell2/github-substring-action@v1.0.0
+        id: version
+        with:
+          value: ${{ github.ref }}
+          index_of_str: 'refs/tags/'
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          body: Release ${{ steps.version.outputs.substring }} released on https://hub.docker.com/r/netzint/onlyoffice-documentserver and https://hub.docker.com/r/netzint/onlyoffice-haproxy
